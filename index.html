@@ -324,34 +324,57 @@
         .text-link { color: var(--accent-color); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
 
        /* Mobile Responsive Timeline */
-@media (max-width: 768px) {
+ .timeline {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+        }
 
-    .timeline::after {
-        left: 20px; /* move center line to left */
-    }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: var(--glass-border);
+        }
 
-    .timeline-container {
-        width: 100%;        /* full width */
-        padding-left: 60px; /* spacing from line */
-        padding-right: 25px;
-        text-align: left;   /* keep text aligned */
-        margin-bottom: 30px;
-    }
+        .step {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
 
-    .timeline-container::after {
-        left: 10px;       /* circle dot on the line */
-        right: auto;
-    }
+        .step:nth-child(even) { flex-direction: row-reverse; }
 
-    .left, 
-    .right {
-        left: 0; /* reset both sides */
-    }
+        .step-content {
+            width: 45%;
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+        }
 
-    .timeline-content {
-        padding: 18px 20px;
-    }
-}
+        .step-number {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 40px;
+            background: var(--accent-blue);
+            color: #000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-family: var(--font-heading);
+            z-index: 2;
+        }
+
 
 
         .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
