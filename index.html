@@ -905,48 +905,113 @@
 
 
         // --- SCROLL REVEAL ANIMATION ---
-const observerOptions = {
-            threshold: 0.1
+ <script>
+        // --- 1. Mobile Menu Toggle ---
+        const mobileToggle = document.getElementById('mobileToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        mobileToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            const icon = mobileToggle.querySelector('i');
+            if (navLinks.classList.contains('active')) {
+                icon.classList.replace('ph-list', 'ph-x');
+            } else {
+                icon.classList.replace('ph-x', 'ph-list');
+            }
+        });
+
+        // Close menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                mobileToggle.querySelector('i').classList.replace('ph-x', 'ph-list');
+            });
+        });
+
+        // --- 2. Typewriter Effect ---
+        const textElement = document.getElementById('typewriter');
+        const phrases = ["AI Automations", "WhatsApp Bots", "Meta Ads", "High-Converting Websites"];
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let typeSpeed = 100;
+
+        function type() {
+            const currentPhrase = phrases[phraseIndex];
+            
+            if (isDeleting) {
+                textElement.textContent = currentPhrase.substring(0, charIndex - 1);
+                charIndex--;
+                typeSpeed = 50;
+            } else {
+                textElement.textContent = currentPhrase.substring(0, charIndex + 1);
+                charIndex++;
+                typeSpeed = 100;
+            }
+
+            if (!isDeleting && charIndex === currentPhrase.length) {
+                isDeleting = true;
+                typeSpeed = 2000; // Pause at end
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                typeSpeed = 500;
+            }
+
+            setTimeout(type, typeSpeed);
+        }
+        
+        document.addEventListener('DOMContentLoaded', type);
+
+        // --- 3. Scroll Reveal Animation ---
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
         };
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('show');
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target); // Only animate once
                 }
             });
         }, observerOptions);
 
-        const hiddenElements = document.querySelectorAll('.hidden');
-        hiddenElements.forEach((el) => observer.observe(el));
+        document.querySelectorAll('.fade-in-up').forEach(el => {
+            observer.observe(el);
+        });
 
-        // --- PARTICLE BACKGROUND (Simple Canvas) ---
-        const canvas = document.getElementById('particles-canvas');
+        // --- 4. Particle Canvas Background (Lightweight) ---
+        const canvas = document.getElementById('canvas-bg');
         const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        let particlesArray;
 
-        let particles = [];
-        const particleCount = 60; // Keep performance high
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
 
         class Particle {
             constructor() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
                 this.size = Math.random() * 2;
-                this.speedX = Math.random() * 0.5 - 0.25;
-                this.speedY = Math.random() * 0.5 - 0.25;
+                this.speedX = (Math.random() * 1) - 0.5;
+                this.speedY = (Math.random() * 1) - 0.5;
+                this.color = '#00BFFF';
             }
             update() {
                 this.x += this.speedX;
                 this.y += this.speedY;
-                if (this.x > canvas.width) this.x = 0;
-                if (this.x < 0) this.x = canvas.width;
-                if (this.y > canvas.height) this.y = 0;
-                if (this.y < 0) this.y = canvas.height;
+                if (this.x > canvas.width || this.x < 0) this.speedX = -this.speedX;
+                if (this.y > canvas.height || this.y < 0) this.speedY = -this.speedY;
             }
             draw() {
-                ctx.fillStyle = 'rgba(0, 191, 255, 0.5)'; // Electric Blue
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = 0.5;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
@@ -954,17 +1019,18 @@ const observerOptions = {
         }
 
         function initParticles() {
-            particles = [];
-            for (let i = 0; i < particleCount; i++) {
-                particles.push(new Particle());
+            particlesArray = [];
+            const numberOfParticles = (canvas.width * canvas.height) / 15000; // Density
+            for (let i = 0; i < numberOfParticles; i++) {
+                particlesArray.push(new Particle());
             }
         }
 
         function animateParticles() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for (let i = 0; i < particles.length; i++) {
-                particles[i].update();
-                particles[i].draw();
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
             }
             requestAnimationFrame(animateParticles);
         }
@@ -972,111 +1038,65 @@ const observerOptions = {
         initParticles();
         animateParticles();
 
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            initParticles();
-        });
+        // --- 5. Form Handling ---
+        const form = document.getElementById('auditForm');
+        const successMsg = document.getElementById('formSuccess');
 
-
-        // --- PARTICLE BACKGROUND (Simple Canvas) ---
-        const canvas = document.getElementById('particles-canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        let particles = [];
-        const particleCount = 60; // Keep performance high
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2;
-                this.speedX = Math.random() * 0.5 - 0.25;
-                this.speedY = Math.random() * 0.5 - 0.25;
-            }
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                if (this.x > canvas.width) this.x = 0;
-                if (this.x < 0) this.x = canvas.width;
-                if (this.y > canvas.height) this.y = 0;
-                if (this.y < 0) this.y = canvas.height;
-            }
-            draw() {
-                ctx.fillStyle = 'rgba(0, 191, 255, 0.5)'; // Electric Blue
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        function initParticles() {
-            particles = [];
-            for (let i = 0; i < particleCount; i++) {
-                particles.push(new Particle());
-            }
-        }
-
-        function animateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for (let i = 0; i < particles.length; i++) {
-                particles[i].update();
-                particles[i].draw();
-            }
-            requestAnimationFrame(animateParticles);
-        }
-
-        initParticles();
-        animateParticles();
-
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            initParticles();
-        });
-
-        // --- MODAL LOGIC ---
-        function openModal(caseId) {
-            const allModals = document.querySelectorAll('.modal');
-            allModals.forEach(m => m.style.display = "none");
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
             
-            const modal = document.getElementById(`modal-${caseId}`);
-            if(modal) {
-                modal.style.display = "flex";
+            // In a real app, you would fetch() to your backend/n8n webhook here
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
+            console.log('Form Data Captured:', data);
+
+            // UI Transition
+            form.style.display = 'none';
+            successMsg.style.display = 'block';
+            
+            // Scroll to success message
+            document.getElementById('audit-form-container').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+
+        // --- 6. Modal Logic ---
+        const modal = document.getElementById('modal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalText = document.getElementById('modalText');
+
+        const caseStudies = {
+            'case1': {
+                title: 'StyleHub E-Commerce Automation',
+                text: 'We integrated n8n with Shopify to automate inventory tagging and customer support tickets. Result: 40% reduction in support hours and 15% increase in repeat purchases due to faster response times.'
+            },
+            'case2': {
+                title: 'Prime Realty WhatsApp Bot',
+                text: 'Developed a WhatsApp AI agent using OpenAI API. It pre-qualified 500+ leads in the first month, automatically booking viewings for agents only with qualified buyers.'
+            },
+            'case3': {
+                title: 'FlowMetric SaaS Website',
+                text: 'Redesigned the entire marketing site with a focus on page speed and conversion funnels. Reduced bounce rate by 25% and doubled the demo booking rate within 30 days.'
+            }
+        };
+
+        function openModal(caseId) {
+            const data = caseStudies[caseId];
+            if (data) {
+                modalTitle.textContent = data.title;
+                modalText.textContent = data.text;
+                modal.style.display = 'flex';
             }
         }
 
         function closeModal() {
-            const allModals = document.querySelectorAll('.modal');
-            allModals.forEach(m => m.style.display = "none");
+            modal.style.display = 'none';
         }
 
+        // Close modal on outside click
         window.onclick = function(event) {
-            if (event.target.classList.contains('modal')) {
+            if (event.target == modal) {
                 closeModal();
             }
         }
-
-        // --- FORM HANDLING ---
-        const form = document.getElementById('auditForm');
-        const successMsg = document.getElementById('success-msg');
-
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            // Simulate API call
-            const btn = form.querySelector('button');
-            const originalText = btn.innerText;
-            btn.innerText = "Analyzing...";
-            btn.style.opacity = "0.7";
-            
-            setTimeout(() => {
-                form.style.display = 'none';
-                successMsg.style.display = 'block';
-                successMsg.scrollIntoView({behavior: "smooth"});
-            }, 1500);
-        });
     </script>
 </body>
 </html>
