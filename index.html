@@ -486,50 +486,29 @@
             transform: translateY(0);
         }
 
-        /* --- RESPONSIVE --- */
-        @media (max-width: 768px) {
-            body { padding-top: 60px; } /* Smaller padding for mobile nav */
-            #hero { height: calc(100vh - 60px); margin-top: -60px; }
-            .hero-title { font-size: 2.2rem; }
-            .founder-grid { grid-template-columns: 1fr; }
-            .timeline::after { left: 31px; }
-            .timeline-container { width: 100%; padding-left: 70px; padding-right: 25px; }
-            .timeline-container::after { left: 21px; }
-            .left { text-align: left; }
-            .hero-btns { flex-direction: column; width: 100%; }
-            .btn { width: 100%; text-align: center; }
-            .footer-content { grid-template-columns: 1fr; gap: 40px; }
-            .radio-group { flex-direction: column; gap: 10px; }
-
-            /* Mobile Nav Adjustments */
+        /* --- RESPONSIVE --- */        @media (max-width: 768px) {
+            .hero-title { font-size: 2.5rem; }
             .nav-links {
                 display: none;
-                flex-direction: column;
                 position: absolute;
-                top: 60px;
+                top: 70px;
                 left: 0;
                 width: 100%;
-                background: rgba(0, 0, 0, 0.95);
-                border-top: 1px solid rgba(255, 255, 255, 0.1);
-                padding: 20px 0;
-                gap: 0;
+                background: #000;
+                flex-direction: column;
+                padding: 20px;
+                border-bottom: 1px solid var(--glass-border);
             }
-            .nav-links.active {
-                display: flex;
-            }
-            .nav-links li {
-                width: 100%;
-                text-align: center;
-                padding: 10px 0;
-            }
-            .nav-links a {
-                padding: 10px 20px;
-                width: 100%;
-                display: block;
-            }
-            .menu-toggle {
-                display: block;
-            }
+            .nav-links.active { display: flex; }
+            .mobile-toggle { display: block; }
+            
+            .timeline::before { left: 20px; }
+            .step { flex-direction: column; align-items: flex-start; margin-left: 50px; }
+            .step:nth-child(even) { flex-direction: column; align-items: flex-start; }
+            .step-number { left: -30px; transform: none; }
+            .step-content { width: 100%; }
+            
+            .about-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
