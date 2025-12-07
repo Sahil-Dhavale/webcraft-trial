@@ -604,22 +604,136 @@ select:focus option:checked {
     color: var(--accent-color);
 }
         /* --- FOOTER (Same as before) --- */
-        footer { background: #030303; border-top: 1px solid rgba(0, 191, 255, 0.15); padding: 80px 0 40px; position: relative; }
-        footer::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 200px; height: 1px; background: var(--accent-color); box-shadow: 0 0 20px var(--accent-color); }
-        .footer-content { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 50px; margin-bottom: 50px; }
-        .footer-brand h3 { font-size: 1.8rem; color: #fff; margin-bottom: 20px; letter-spacing: -1px; }
-        .footer-brand p { color: #888; font-size: 0.95rem; max-width: 300px; line-height: 1.8; }
-        .footer-col h4 { color: #fff; margin-bottom: 25px; font-size: 1.2rem; font-weight: 600; }
-        .footer-links-list { list-style: none; }
-        .footer-links-list li { margin-bottom: 15px; }
-        .footer-links-list a { color: #888; text-decoration: none; font-size: 0.95rem; transition: 0.3s; display: flex; align-items: center; gap: 8px; }
-        .footer-links-list a:hover { color: var(--accent-color); transform: translateX(5px); }
-        .footer-socials { display: flex; gap: 15px; margin-top: 20px; }
-        .social-btn { width: 45px; height: 45px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; border-radius: 50%; color: #fff; font-size: 1.2rem; transition: 0.3s; text-decoration: none; border: 1px solid rgba(255,255,255,0.1); }
-        .social-btn:hover { background: var(--accent-color); border-color: var(--accent-color); box-shadow: 0 0 15px var(--accent-glow); transform: translateY(-3px); color: #000; }
-        .copyright { text-align: center; padding-top: 40px; border-top: 1px solid #111; color: #555; font-size: 0.85rem; }
+       /* Assuming --accent-color and --accent-glow variables are defined */
+:root {
+    --accent-color: #00bfff; /* Example value */
+    --accent-glow: rgba(0, 191, 255, 0.4); /* Example value */
+}
 
-        /* --- ANIMATION CLASSES --- */
+footer { 
+    background: #030303; 
+    border-top: 1px solid rgba(0, 191, 255, 0.15); 
+    padding: 80px 0 40px; 
+    position: relative; 
+}
+
+/* --- Top Accent Line --- */
+footer::before { 
+    content: ''; 
+    position: absolute; 
+    top: 0; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    width: 200px; 
+    height: 1px; 
+    background: var(--accent-color); 
+    box-shadow: 0 0 20px var(--accent-glow); 
+}
+
+/* --- Footer Grid (Desktop View) --- */
+.footer-content { 
+    display: grid; 
+    /* Desktop: 2 wide columns, 1 medium, 1 narrow */
+    grid-template-columns: 2fr 1fr 1fr; 
+    gap: 50px; 
+    margin-bottom: 50px; 
+}
+
+/* --- Brand Column --- */
+.footer-brand h3 { 
+    font-size: 1.8rem; 
+    color: #fff; 
+    margin-bottom: 20px; 
+    letter-spacing: -1px; 
+}
+.footer-brand p { 
+    color: #888; 
+    font-size: 0.95rem; 
+    max-width: 300px; 
+    line-height: 1.8; 
+}
+
+/* --- Link Columns --- */
+.footer-col h4 { 
+    color: #fff; 
+    margin-bottom: 25px; 
+    font-size: 1.2rem; 
+    font-weight: 600; 
+}
+.footer-links-list { 
+    list-style: none; 
+    padding: 0; 
+}
+.footer-links-list li { 
+    margin-bottom: 15px; 
+}
+.footer-links-list a { 
+    color: #888; 
+    text-decoration: none; 
+    font-size: 0.95rem; 
+    transition: 0.3s; 
+    display: flex; 
+    align-items: center; 
+    gap: 8px; 
+}
+.footer-links-list a:hover { 
+    color: var(--accent-color); 
+    transform: translateX(5px); 
+}
+
+/* --- Social Buttons --- */
+.footer-socials { 
+    display: flex; 
+    gap: 15px; 
+    margin-top: 20px; 
+}
+.social-btn { 
+    width: 45px; 
+    height: 45px; 
+    background: rgba(255,255,255,0.05); 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    border-radius: 50%; 
+    color: #fff; 
+    font-size: 1.2rem; 
+    transition: 0.3s; 
+    text-decoration: none; 
+    border: 1px solid rgba(255,255,255,0.1); 
+}
+.social-btn:hover { 
+    background: var(--accent-color); 
+    border-color: var(--accent-color); 
+    box-shadow: 0 0 15px var(--accent-glow); 
+    transform: translateY(-3px); 
+    color: #000; 
+}
+
+/* --- Copyright Section --- */
+.copyright { 
+    text-align: center; 
+    padding-top: 40px; 
+    border-top: 1px solid #111; 
+    color: #555; 
+    font-size: 0.85rem; 
+}
+
+
+/* ========================================================= */
+/* 📱 MOBILE RESPONSIVENESS (Screens up to 768px wide) 📱 */
+/* ========================================================= */
+@media (max-width: 768px) {
+    .footer-content {
+        /* Mobile: Switch to a single column layout */
+        grid-template-columns: 1fr;
+        gap: 40px; /* Reduced gap slightly for vertical stacking */
+    }
+
+    .footer-brand p {
+        /* Allow description to use full mobile width */
+        max-width: 100%;
+    }
+}
         .hidden {
             opacity: 0;
             transform: translateY(30px);
@@ -954,46 +1068,42 @@ select:focus option:checked {
 </section>
     <!-- FOOTER -->
     <footer>
-        <div class="container">
-            <div class="footer-content">
-                <!-- Brand Column -->
-                <div class="footer-brand">
-                    <h3>WebCraft<span class="text-accent">AI</span></h3>
-                    <p>We build result-driven automations, AI agents, and high-performance websites that help businesses scale without the chaos.</p>
-                    <div class="footer-socials">
-                        <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="social-btn"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
-                    </div>
-                </div>
-
-                <!-- Quick Links -->
-                <div class="footer-col">
-                    <h4>Quick Links</h4>
-                    <ul class="footer-links-list">
-                        <li><a href="#services">Our Services</a></li>
-                        <li><a href="#process">How It Works</a></li>
-                        <li><a href="#portfolio">Case Studies</a></li>
-                        <li><a href="#audit-form-section">Book Audit</a></li>
-                    </ul>
-                </div>
-
-                <!-- Contact -->
-                <div class="footer-col">
-                    <h4>Get in Touch</h4>
-                    <ul class="footer-links-list">
-                        <li><a href="mailto:sahil@webcraftai.com"><i class="fas fa-envelope"></i> sahil@webcraftai.com</a></li>
-                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> Mumbai, India</a></li>
-                    </ul>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>WebCraft<span class="text-accent">AI</span></h3>
+                <p>We build result-driven automations, AI agents, and high-performance websites that help businesses scale without the chaos.</p>
+                <div class="footer-socials">
+                    <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-btn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a> 
                 </div>
             </div>
-            
-            <div class="copyright">
-                <p>&copy; 2024 WebCraftAI. All rights reserved. | <a href="#" style="color: #555; text-decoration: none;">Privacy Policy</a></p>
+
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul class="footer-links-list">
+                    <li><a href="#services">Our Services</a></li>
+                    <li><a href="#process">How It Works</a></li>
+                    <li><a href="#portfolio">Case Studies</a></li>
+                    <li><a href="#audit-form-section">Book Audit</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Get in Touch</h4>
+                <ul class="footer-links-list">
+                    <li><a href="mailto:sahil@webcraftai.com"><i class="fas fa-envelope"></i> sahil@webcraftai.com</a></li>
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> Mumbai, India</a></li>
+                </ul>
             </div>
         </div>
-    </footer>
-
+        
+        <div class="copyright">
+            <p>&copy; 2024 WebCraftAI. All rights reserved. | <a href="#" style="color: #555; text-decoration: none;">Privacy Policy</a></p>
+        </div>
+    </div>
+</footer>
     <!-- MODAL POPUPS -->
     <div id="modal-case1" class="modal">
         <div class="modal-content">
