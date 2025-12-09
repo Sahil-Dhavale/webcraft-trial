@@ -305,13 +305,73 @@
 
         /* --- FOUNDER, SERVICES, PROCESS, PORTFOLIO STYLES (Same as before) --- */
         
-        #founder { background: linear-gradient(180deg, #000000 0%, #050505 100%); }
-        .founder-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
-        .video-wrapper { position: relative; border-radius: 20px; overflow: hidden; border: 1px solid var(--accent-color); box-shadow: 0 0 20px rgba(0, 191, 255, 0.15); }
-        .video-placeholder { width: 100%; aspect-ratio: 16/9; background: #111; display: flex; align-items: center; justify-content: center; color: #555; font-size: 3rem; }
-        .founder-info h3 { font-size: 2rem; margin-bottom: 10px; }
-        .founder-role { color: var(--accent-color); font-size: 1.1rem; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; }
-        .founder-bio { color: #ccc; font-size: 1.1rem; }
+        /* --- Founder Section Background --- */
+#founder { 
+    background: linear-gradient(180deg, #000000 0%, #050505 100%); 
+    /* Assuming .section-padding is defined globally for vertical spacing */
+}
+
+/* --- Founder Grid (Desktop Layout) --- */
+.founder-grid { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; /* Side-by-side columns */
+    gap: 50px; 
+    align-items: center; 
+}
+
+/* --- Video Wrapper Styling (Maintains Aspect Ratio and Glass/Neon Border) --- */
+.video-wrapper { 
+    position: relative; 
+    border-radius: 20px; 
+    overflow: hidden; 
+    /* Apply your aesthetic styling here */
+    border: 1px solid var(--accent-color); 
+    box-shadow: 0 0 20px rgba(0, 191, 255, 0.15); 
+    
+    /* Crucial for maintaining 16:9 aspect ratio for the iframe */
+    padding-bottom: 56.25%; /* 56.25% is (9 / 16) * 100 */
+    height: 0;
+}
+
+/* --- Target the embedded YouTube iframe inside the wrapper --- */
+.video-wrapper iframe {
+    position: absolute; /* Positions the iframe relative to the wrapper */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none; /* Remove any default iframe borders */
+}
+
+/* --- Founder Text Content --- */
+.founder-info h3 { 
+    font-size: 2rem; 
+    margin-bottom: 10px; 
+    color: #fff; /* Ensure text is visible on dark background */
+}
+.founder-role { 
+    color: var(--accent-color); 
+    font-size: 1.1rem; 
+    margin-bottom: 20px; 
+    text-transform: uppercase; 
+    letter-spacing: 2px; 
+}
+.founder-bio { 
+    color: #ccc; 
+    font-size: 1.1rem; 
+}
+
+/* ========================================================= */
+/* 📱 MOBILE RESPONSIVENESS (To stack the video and info) 📱 */
+/* ========================================================= */
+@media (max-width: 768px) {
+    .founder-grid {
+        grid-template-columns: 1fr; /* Stacks vertically on small screens */
+        gap: 40px;
+    }
+}
+
+        
 
         .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
         .service-card { background: var(--glass-bg); border: 1px solid var(--glass-border); padding: 30px; border-radius: 16px; transition: var(--transition); backdrop-filter: blur(10px); position: relative; overflow: hidden; }
@@ -831,24 +891,32 @@ footer::before {
     </header>
 
     <!-- FOUNDER SECTION -->
-    <section id="founder" class="section-padding">
-        <div class="container">
-            <div class="founder-grid hidden">
-                <div class="video-wrapper">
-                    <div class="video-placeholder">
-                        <i class="fas fa-play-circle" style="color: var(--accent-color);"></i>
-                    </div>
+   <section id="founder" class="section-padding">
+    <div class="container">
+        <div class="founder-grid hidden">
+            
+            <div class="video-wrapper">
+                <iframe 
+                    width="100%" 
+                    height="100%" 
+                    src="https://youtu.be/vTVuVoBiodQ?si=n5BQ-oF5aZHTMbIx" 
+                    title="YouTube video player" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    allowfullscreen>
+                </iframe>
+                
                 </div>
-                <div class="founder-info">
-                    <h3>Hi, I’m Sahil Dhavale</h3>
-                    <p class="founder-role">Founder // WebCraftAI</p>
-                    <p class="founder-bio">
-                        We don't just build websites; we build engines for growth. From custom AI agents to high-converting funnels, my team helps businesses automate the mundane and scale the revenue-generating.
-                    </p>
-                </div>
+            <div class="founder-info">
+                <h3>Hi, I’m Sahil Dhavale</h3>
+                <p class="founder-role">Founder // WebCraftAI</p>
+                <p class="founder-bio">
+                    We don't just build websites; we build engines for growth. From custom AI agents to high-converting funnels, my team helps businesses automate the mundane and scale the revenue-generating.
+                </p>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
     <!-- SERVICES SECTION -->
     <section id="services" class="section-padding">
